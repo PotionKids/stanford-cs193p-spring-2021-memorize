@@ -14,9 +14,9 @@ struct CardView: View {
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 20)
-            shape.stroke(lineWidth: 3.5)
             shape.fill()
                 .foregroundColor(isFaceUp ? .white : .red)
+            shape.strokeBorder(lineWidth: 2)
             Text(isFaceUp ? content : "")
                 .font(.largeTitle)
         }
@@ -27,5 +27,6 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }

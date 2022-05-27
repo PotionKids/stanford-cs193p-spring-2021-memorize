@@ -10,17 +10,15 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         HStack {
-            ForEach(0..<4) {_ in
-                CardView()
-            }
+            CardView(isFaceUp: true)
+            CardView()
+            CardView()
+            CardView(isFaceUp: true)
         }
         .foregroundColor(.red)
         .padding()
     }
 }
-
-
-
 
 
 

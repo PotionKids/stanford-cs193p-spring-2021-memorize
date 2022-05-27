@@ -8,46 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🛵", "🏎", "🛶", "🚂", "🚢", "🚖", "🚀", "🚁", "🚡", "🛩", "🛰", "🛥", "🚤", "🚇", "🚄", "🚟", "🚔", "🛳"]
-    
-    @State var emojiCount = 5
+    @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
-        VStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: screenWidth/5))]) {
-                    ForEach(emojis[0..<emojiCount], id: \.self) {emoji in
-                        CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
-                    }
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: screenWidth/5))]) {
+                ForEach(game.cards) {card in
+                    CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+                        .onTapGesture {
+                            game.choose(card: card)
+                        }
                 }
             }
-            .foregroundColor(.red)
-            .padding()
-            Spacer()
-            HStack {
-                remove
-                Spacer()
-                add
-            }
-            .font(.largeTitle)
-            .padding(.horizontal)
         }
-    }
-    
-    var remove: some View {
-        Button {
-            emojiCount -= (emojiCount > 1) ? 1 : 0
-        } label: {
-            Image(systemName: "minus.circle")
-        }
-    }
-    
-    var add: some View {
-        Button {
-            emojiCount += (emojiCount < emojis.count) ? 1 : 0
-        } label: {
-            Image(systemName: "plus.circle")
-        }
+        .foregroundColor(.red)
+        .padding()
     }
     
     let screenWidth = UIScreen.main.bounds.width
@@ -60,9 +35,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let game = EmojiMemoryGame()
+        ContentView(game: game)
             .previewInterfaceOrientation(.portrait)
-        ContentView()
+        ContentView(game: game)
             .preferredColorScheme(.dark)
     }
 }

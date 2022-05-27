@@ -9,8 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        HStack {
+            ForEach(0..<4) {_ in
+                CardView()
+            }
+        }
+    }
+}
+
+struct CardView: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(lineWidth: 3)
+            Text("Hello Scoop!")
+        }
+        .foregroundColor(.red)
     }
 }
 

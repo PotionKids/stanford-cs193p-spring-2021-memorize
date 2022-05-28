@@ -21,7 +21,7 @@ struct EmojiMemoryGameView: View {
         .padding()
     }
     
-    func grid(_ cards: [Game.Card]) -> some View {
+    func grid(_ cards: [EmojiMemoryGame.Card]) -> some View {
         LazyVGrid(columns: [adaptiveGridItem(withMinimumFactor: 5)]) {
             ForEach(cards) {card in
                 sized(card).onTapGesture { game.choose(card: card) }
@@ -29,7 +29,7 @@ struct EmojiMemoryGameView: View {
         }
     }
     
-    func sized(_ card: Game.Card) -> some View {
+    func sized(_ card: EmojiMemoryGame.Card) -> some View {
         CardView(card: card).aspectRatio(2/3, contentMode: .fit)
     }
     

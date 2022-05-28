@@ -9,7 +9,9 @@ import Foundation
 
 struct MemoryGame<CardContent: Equatable> {
     private(set) var cards: [Card]
-    private var onlyFaceUpCard: Int?
+    private var onlyFaceUpCardIndex: Int? {
+        get { cards.indices.filter({ cards[$0].isFaceUp }).oneAndOnly }
+    }
     
     mutating func choose(_ card: Card) {
         guard let chosenIndex = cards.firstIndex(where: {$0.id == card.id}),
@@ -21,58 +23,66 @@ struct MemoryGame<CardContent: Equatable> {
     }
     
     mutating func updateFace(forCardAt index: Int) {
-        cards[index].flip()
+        cards[index].turnFaceUp()
     }
     
     mutating func match(cardAt chosenIndex: Int) {
-        guard let potentialMatch = onlyFaceUpCard else {
+        guard let potentialMatch = onlyFaceUpCardIndex else {
             turnAllCardsFaceDownExcept(cardAt: chosenIndex)
             return
         }
         if cardsDoMatch(at: chosenIndex, and: potentialMatch) {
-            cards[chosenIndex].isMatched = true
-            cards[potentialMatch].isMatched = true
+            updateMatched(forCardAt: chosenIndex, and: potentialMatch)
         }
-        onlyFaceUpCard = nil
+    }
+    
+    mutating func updateMatched(forCardAt index: Int, and otherIndex: Int) {
+        cards[index].match()
+        cards[otherIndex].match()
     }
     
     mutating func turnAllCardsFaceDown() {
-        for index in cards.indices {
-            cards[index].isFaceUp = false
-        }
+        cards.indices.forEach { cards[$0].turnFaceDown() }
     }
     
     mutating func turnAllCardsFaceDownExcept(cardAt index: Int) {
         turnAllCardsFaceDown()
-        onlyFaceUpCard = index
+        cards[index].turnFaceUp()
     }
     
     func cardsDoMatch(at index: Int, and otherIndex: Int) -> Bool {
         return cards[index].content == cards[otherIndex].content
     }
     
-    init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
-        cards = [Card]()
-        
-        for pairIndex in 0..<numberOfPairsOfCards {
-            let content = createCardContent(pairIndex)
-            cards.append(Card(content: content, id: pairIndex*2))
-            cards.append(Card(content: content, id: pairIndex*2 + 1))
-        }
+    init(numberOfCardPairs: Int, createCardContent: (Int) -> CardContent) {
+        cards = Array(0..<numberOfCardPairs)
+            .map {
+                createCardContent($0)
+            }
+            .flatMap {
+                [Card(content: $0), Card(content: $0)]
+            }
         cards.shuffle()
     }
     
     struct Card: Identifiable {
-        var isFaceUp = false
-        var isMatched = false
+        private(set) var isFaceUp = false
+        private(set) var isMatched = false
         let content: CardContent
-        let id: Int
+        let id: Int = UUID().hashValue
         
         var isNotFaceUp: Bool { !isFaceUp }
         var isNotMatched: Bool { !isMatched }
         
-        mutating func flip() {
-            isFaceUp.toggle()
-        }
+        mutating func turnFaceUp() { isFaceUp = true }
+        mutating func turnFaceDown() { isFaceUp = false }
+        mutating func flip() { isFaceUp.toggle() }
+        mutating func match() { isMatched = true }
+    }
+}
+
+extension Array {
+    var oneAndOnly: Element? {
+        (count == 1) ? first : nil
     }
 }

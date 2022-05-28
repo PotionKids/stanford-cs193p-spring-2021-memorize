@@ -11,18 +11,8 @@ struct MemoryGame<CardContent> {
     private(set) var cards: [Card]
     
     mutating func choose(_ card: Card) {
-        print("hello")
-        let chosenIndex = index(of: card)
+        guard let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) else { return }
         cards[chosenIndex].isFaceUp.toggle()
-    }
-    
-    func index(of card: Card) -> Int {
-        for index in 0..<cards.count {
-            if cards[index].id == card.id {
-                return index
-            }
-        }
-        return -1
     }
     
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {

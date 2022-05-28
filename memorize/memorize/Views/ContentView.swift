@@ -10,23 +10,32 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var game: EmojiMemoryGame
     
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: screenWidth/5))]) {
-                ForEach(game.cards) {card in
-                    CardView(card: card).aspectRatio(2/3, contentMode: .fit)
-                        .onTapGesture {
-                            game.choose(card: card)
-                        }
-                }
-            }
+            grid(game.cards)
         }
         .foregroundColor(.red)
         .padding()
     }
     
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
+    func grid(_ cards: [Game.Card]) -> some View {
+        LazyVGrid(columns: [adaptiveGridItem(withMinimumFactor: 5)]) {
+            ForEach(cards) {card in
+                sized(card).onTapGesture { game.choose(card: card) }
+            }
+        }
+    }
+    
+    func sized(_ card: Game.Card) -> some View {
+        CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+    }
+    
+    func adaptiveGridItem(withMinimumFactor factor: CGFloat) -> GridItem {
+        GridItem(.adaptive(minimum: screenWidth/factor))
+    }
 }
 
 

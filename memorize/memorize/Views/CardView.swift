@@ -13,11 +13,9 @@ struct CardView: View {
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 20)
-            shape.fill()
-                .foregroundColor(card.isFaceUp ? .white : .red)
+            shape.fill().foregroundColor(card.isFaceUp ? .white : .red)
             shape.strokeBorder(lineWidth: 2)
-            Text(card.isFaceUp ? card.content : "")
-                .font(.largeTitle)
+            Text(card.isFaceUp ? card.content : "").font(.largeTitle)
         }
     }
 }

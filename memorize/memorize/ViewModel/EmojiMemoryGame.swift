@@ -7,8 +7,9 @@
 
 import Foundation
 
+typealias Game = MemoryGame<String>
+
 class EmojiMemoryGame: ObservableObject {
-    typealias Game = MemoryGame<String>
     
     static let emojis = [
                             "🛵", "🏎", "🛶", "🚂", "🚢", "🚖",

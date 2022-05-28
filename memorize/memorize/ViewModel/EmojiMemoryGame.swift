@@ -11,13 +11,13 @@ typealias Game = MemoryGame<String>
 
 class EmojiMemoryGame: ObservableObject {
     
-    static let emojis = [
+    private static let emojis = [
                             "🛵", "🏎", "🛶", "🚂", "🚢", "🚖",
                             "🚀", "🚁", "🚡", "🛩", "🛰", "🛥",
                             "🚤", "🚇", "🚄", "🚟", "🚔", "🛳"
                         ]
     
-    static func createEmojiMemoryGame() -> Game {
+    private static func createEmojiMemoryGame() -> Game {
         Game(numberOfPairsOfCards: 6) { pairIndex in
             EmojiMemoryGame.emojis[pairIndex]
         }

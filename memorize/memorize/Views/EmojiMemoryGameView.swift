@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
     
     let screenWidth = UIScreen.main.bounds.width
@@ -39,15 +39,12 @@ struct ContentView: View {
 }
 
 
-
-
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        ContentView(game: game)
+        EmojiMemoryGameView(game: game)
             .previewInterfaceOrientation(.portrait)
-        ContentView(game: game)
+        EmojiMemoryGameView(game: game)
             .preferredColorScheme(.dark)
     }
 }

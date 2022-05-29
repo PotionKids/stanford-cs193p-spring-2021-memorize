@@ -22,7 +22,7 @@ struct EmojiMemoryGameView: View {
     }
     
     func grid(_ cards: [EmojiMemoryGame.Card]) -> some View {
-        LazyVGrid(columns: [adaptiveGridItem(withMinimumFactor: 5)]) {
+        LazyVGrid(columns: [adaptiveGridItem(withMinimumFactor: 4)]) {
             ForEach(cards) {card in
                 sized(card).onTapGesture { game.choose(card: card) }
             }

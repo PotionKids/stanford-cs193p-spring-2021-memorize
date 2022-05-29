@@ -14,27 +14,18 @@ struct CardView: View {
         GeometryReader { geometry in
             let size = geometry.size
             ZStack {
-                let shape = RoundedRectangle(cornerRadius: Context.cornerRadiusScaled(for: size))
-                if card.isFaceUp {
-                    shape.fill().foregroundColor(.white)
-                    shape.strokeBorder(lineWidth: 2).foregroundColor(.red)
-                    Pie(startAngle: 270.degrees, endAngle: 0.degrees).foregroundColor(.teal).padding(5).opacity(0.5)
-                    Text(card.content).font(Font.proportional(for: size, scaledBy: Context.fontScaling))
-                }
-                else if card.isMatched { shape.clear }
-                else { shape.fill().foregroundColor(.red) }
+                Pie(startAngle: 270.degrees, endAngle: 0.degrees).foregroundColor(.teal).padding(5).opacity(0.5)
+                Text(card.content).font(Font.proportional(for: size, scaledBy: Context.fontScaling))
             }
+            .cardify(isFaceUp: card.isFaceUp, isMatched: card.isMatched, size: geometry.size)
         }
     }
     
     private struct Context {
         static let fontScaling: CGFloat = 0.32
-        static let cornerRadiusScaling: CGFloat = 0.25
-        static func cornerRadiusScaled(for size: CGSize) -> CGFloat {
-            size.min.scaled(by: cornerRadiusScaling)
         }
     }
-}
+
 
 extension Shape {
     var clear: some View {

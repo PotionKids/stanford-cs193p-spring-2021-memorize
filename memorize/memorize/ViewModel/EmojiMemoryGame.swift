@@ -14,13 +14,13 @@ class EmojiMemoryGame: ObservableObject {
     typealias Card = Game.Card
     
     private static let emojis = [
-                            "🛵", "🏎", "🛶", "🚂", "🚢", "🚖",
-                            "🚀", "🚁", "🚡", "🛩", "🛰", "🛥",
-                            "🚤", "🚇", "🚄", "🚟", "🚔", "🛳"
+                            "🛵", "🚀", "⛵️", "🚂", "🚢", "🚖",
+                            "🛺", "🚁", "🚡", "🏍", "🛰", "🚜",
+                            "🚤", "🚚", "🚌", "🚟", "🚔", "🛳"
                         ]
     
     private static func createEmojiMemoryGame() -> Game {
-        Game(numberOfCardPairs: 6) { EmojiMemoryGame.emojis[$0] }
+        Game(numberOfCardPairs: 4) { EmojiMemoryGame.emojis[$0] }
     }
     
     @Published private var model = EmojiMemoryGame.createEmojiMemoryGame()
@@ -29,7 +29,7 @@ class EmojiMemoryGame: ObservableObject {
         return model.cards
     }
     
-    func choose(card: Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
 }

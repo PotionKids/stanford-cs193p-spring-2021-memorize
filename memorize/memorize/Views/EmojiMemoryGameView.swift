@@ -10,31 +10,34 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
     
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
-    
     var body: some View {
-        ScrollView {
-            grid(game.cards)
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            cardView(for: card)
         }
-        .foregroundColor(.red)
-        .padding()
     }
     
-    func grid(_ cards: [EmojiMemoryGame.Card]) -> some View {
-        LazyVGrid(columns: [adaptiveGridItem(withMinimumFactor: 4)]) {
-            ForEach(cards) {card in
-                sized(card).onTapGesture { game.choose(card: card) }
+    @ViewBuilder
+    func cardView(for card: Game.Card) -> some View {
+        if card.isMatched && card.isNotFaceUp {
+            Rectangle().opacity(0)
+        } else {
+        CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+            .onTapGesture {
+                game.choose(card)
             }
         }
     }
-    
-    func sized(_ card: EmojiMemoryGame.Card) -> some View {
-        CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+}
+
+extension View {
+    var bounds: CGRect {
+        UIScreen.main.bounds
     }
-    
-    func adaptiveGridItem(withMinimumFactor factor: CGFloat) -> GridItem {
-        GridItem(.adaptive(minimum: screenWidth/factor))
+    var screenWidth: CGFloat {
+        bounds.width
+    }
+    var screenHeight: CGFloat {
+        bounds.height
     }
 }
 
@@ -42,9 +45,8 @@ struct EmojiMemoryGameView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        EmojiMemoryGameView(game: game)
+        game.choose(game.cards.first!)
+        return EmojiMemoryGameView(game: game)
             .previewInterfaceOrientation(.portrait)
-        EmojiMemoryGameView(game: game)
-            .preferredColorScheme(.dark)
     }
 }

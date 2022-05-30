@@ -21,9 +21,9 @@ struct AspectVGrid<Item, ItemView>: View where ItemView: View, Item: Identifiabl
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Spacer()
+//                Spacer()
                 grid(items, size: geometry.size)
-                Spacer()
+//                Spacer()
             }
             Spacer(minLength: 0)
         }

@@ -60,6 +60,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		EE71B637284548BC005F547E /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		EECAB2B42840DE7500BD5764 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +86,7 @@
 		EECAB2BF2840DE7500BD5764 /* memorize */ = {
 			isa = PBXGroup;
 			children = (
+				EE71B637284548BC005F547E /* Components */,
 				EE00AA7E28415EBA001D8108 /* ViewModel */,
 				EE00AA7B28415D3B001D8108 /* Model */,
 				EECAB2CE2840E37B00BD5764 /* Views */,

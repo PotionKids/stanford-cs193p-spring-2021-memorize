@@ -11,6 +11,14 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
+        VStack {
+            gameBody
+            shuffle
+        }
+        .padding()
+    }
+    
+    var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
             cardView(for: card)
         }
@@ -19,11 +27,19 @@ struct EmojiMemoryGameView: View {
     @ViewBuilder
     func cardView(for card: Game.Card) -> some View {
         if card.isMatched && card.isNotFaceUp {
-            Rectangle().opacity(0)
+            Rectangle().clear
         } else {
         CardView(card: card).aspectRatio(2/3, contentMode: .fit)
             .onTapGesture {
                 game.choose(card)
+            }
+        }
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            withAnimation {
+                game.shuffle()
             }
         }
     }

@@ -36,6 +36,10 @@ struct MemoryGame<CardContent: Equatable> {
         }
     }
     
+    mutating func shuffle() {
+        cards.shuffle()
+    }
+    
     mutating func updateMatched(forCardAt index: Int, and otherIndex: Int) {
         cards[index].match()
         cards[otherIndex].match()
@@ -62,7 +66,7 @@ struct MemoryGame<CardContent: Equatable> {
             .flatMap {
                 [Card(content: $0), Card(content: $0)]
             }
-        cards.shuffle()
+        shuffle()
     }
     
     struct Card: Identifiable {

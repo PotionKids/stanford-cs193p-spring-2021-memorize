@@ -31,6 +31,8 @@ struct EmojiMemoryGameView: View {
         .padding()
     }
     
+    
+    
     var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: CardView.CardConstants.aspectRatio) { card in
             cardView(for: card)
